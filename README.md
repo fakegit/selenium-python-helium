@@ -5,10 +5,11 @@ For example:
 
 ![Helium Demo](docs/helium-demo.gif)
 
-Helium is being sponsored by [BirdProxies](https://birdproxies.com). Check them
-out if you need a proxy for your web automation tasks!
+Helium is being sponsored by
+[RapidProxy](https://www.rapidproxy.io/?ref=herrmann). Check them out if you
+need a proxy for your web automation tasks!
 
-[![BirdProxies logo](https://www.birdproxies.com/assets/icons/logo.svg)](https://birdproxies.com)
+[![RapidProxy logo](docs/sponsor.png)](https://www.rapidproxy.io/?ref=herrmann)
 
 ## Installation
 
