@@ -122,7 +122,8 @@ class GUIElementsTest(BrowserAT):
 	def test_combo_box_options(self):
 		options = ComboBox("Drop Down List").options
 		self.assertListEqual(
-			options, ['Option One', 'Option Two', 'Option Three']
+			options,
+			['Option One', 'Option Two', ' Option with leading whitespace']
 		)
 	def test_reads_value_of_combo_box(self):
 		self.assertEqual('Option One', ComboBox("Drop Down List").value)
@@ -130,8 +131,17 @@ class GUIElementsTest(BrowserAT):
 		self.assertEqual('Option One', ComboBox("Drop Down List").value)
 		select("Drop Down List", "Option Two")
 		self.assertEqual('Option Two', ComboBox("Drop Down List").value)
-		select(ComboBox("Drop Down List"), "Option Three")
-		self.assertEqual('Option Three', ComboBox("Drop Down List").value)
+		select(ComboBox("Drop Down List"), "Option One")
+		self.assertEqual('Option One', ComboBox("Drop Down List").value)
+	def test_select_value_from_combo_box_by_prefix(self):
+		select("Drop Down List", "Option Tw")
+		self.assertEqual('Option Two', ComboBox("Drop Down List").value)
+	def test_select_ignores_leading_whitespace(self):
+		select("Drop Down List", "Option with lea")
+		self.assertEqual(
+			'Option with leading whitespace',
+			ComboBox("Drop Down List").value.strip()
+		)
 	def test_combo_box_identified_by_value(self):
 		combo_box = ComboBox("Select a value...")
 		self.assertTrue(combo_box.exists())

@@ -9,7 +9,7 @@ from inspect import getfullargspec, ismethod, isfunction
 from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
-	NoAlertPresentException, NoSuchWindowException
+	NoAlertPresentException, NoSuchWindowException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from selenium.webdriver.remote.webelement import WebElement
@@ -297,7 +297,18 @@ class APIImpl:
 		def _select(web_element):
 			if isinstance(web_element, WebElementWrapper):
 				web_element = web_element.unwrap()
-			Select(web_element).select_by_visible_text(value)
+			select = Select(web_element)
+			try:
+				select.select_by_visible_text(value)
+			except NoSuchElementException:
+				# Try to find a prefix match.
+				for option in select.options:
+					if option.text.lstrip().startswith(value):
+						if not option.is_selected():
+							option.click()
+						break
+				else:
+					raise
 		try:
 			self._manipulate(unwrapped, _select)
 		except LookupError:
